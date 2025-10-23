@@ -1,18 +1,19 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { useAccountState, useToastState } from "@/store";
 import { TopBar } from "@/components/layout/TopBar";
 import { SideBar } from "@/components/layout/SideBar";
-import { usePostData } from "@/hooks/usePostData";
+import { useMutationData } from "@/hooks/useMutationData";
 import { useRouter } from "next/navigation";
+import { useAccountState } from "@/store/accountState";
+import { useToastState } from "@/store/toastState";
 
 export default function Layout({ children }) {
   const router = useRouter()
   const [showSidebar, setShowSidebar] = useState(true);
-  const { clearAccount, setLoadingz } = useAccountState();
+  const { clearAccount } = useAccountState();
   const { showToast } = useToastState();
-  const { mutateAsync } = usePostData("/api/auth/logout");
+  const { mutateAsync } = useMutationData("/api/auth/logout");
 
   const onSignOut = async () => {
     await mutateAsync()

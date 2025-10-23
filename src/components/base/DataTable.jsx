@@ -1,9 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { TrashIcon, DocumentMagnifyingGlassIcon, ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline';
-import { removeSpecialCharacter } from '@/lib/helper';
-import { Buttonz, Columnz, SplitButtonz, Switchz, Tablez } from '@/components/core';
-import { confirmDialog } from 'primereact/confirmdialog';
-import { useParams, useRouter } from 'next/navigation';
+"use client"
+
+import React, { useEffect, useState } from "react";
+import {
+  TrashIcon,
+  DocumentMagnifyingGlassIcon,
+  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
+} from "@heroicons/react/24/outline";
+import { removeSpecialCharacter } from "@/lib/helper";
+import {
+  Buttonz,
+  Columnz,
+  SplitButtonz,
+  Switchz,
+  Tablez,
+} from "@/components/core";
+import { confirmDialog } from "primereact/confirmdialog";
+import { useParams, useRouter } from "next/navigation";
+import { deleteData, postData } from "@/hooks/useMutationData";
 
 export const DataTable = (props) => {
   const router = useRouter();
@@ -14,7 +28,7 @@ export const DataTable = (props) => {
     data = [],
     total = 0,
     loading = false,
-    key = '_id',
+    key = "_id",
     params = { page: 1, limit: 10 },
     setParams = () => {},
     actionsInfo = {},
@@ -25,78 +39,119 @@ export const DataTable = (props) => {
     select,
     setSelect,
     onSuccess = () => {},
-    hideParams
+    hideParams,
   } = props;
   const {
     onViewDetail = () => {},
     onDelete,
-    deleteApi = () => {},
+    deleteRoute = "",
     handleDelete = (item) => ({ _id: item._id }),
     moreActions,
-    isHideDelete = () => false
+    isHideDelete = () => false,
   } = actionsInfo;
-  const { onCreate = () => {}, onImport = () => {}, exportApi, moreHeader, items } = headerInfo;
-  const { changeStatusApi = () => {}, handleChangeStatus = (item) => ({ _id: item._id, status: item.status ? 0 : 1 }) } = statusInfo;
-  const isActions = baseActions.includes('detail') || baseActions.includes('delete') || Boolean(moreActions);
+  const {
+    onCreate = () => {},
+    onImport = () => {},
+    exportApi,
+    moreHeader,
+    items,
+  } = headerInfo;
+  const {
+    changeStatusRoute = "",
+    handleChangeStatus = (item) => ({
+      _id: item._id,
+      status: item.status ? 0 : 1,
+    }),
+  } = statusInfo;
+  const isActions =
+    baseActions.includes("detail") ||
+    baseActions.includes("delete") ||
+    Boolean(moreActions);
   const isHeader =
-    baseActions.includes('create') || baseActions.includes('import') || baseActions.includes('export') || moreHeader || items;
-  const isStatus = Boolean(statusInfo.changeStatusApi);
+    baseActions.includes("create") ||
+    baseActions.includes("import") ||
+    baseActions.includes("export") ||
+    moreHeader ||
+    items;
+  const isStatus = Boolean(statusInfo.changeStatusRoute);
 
   const onDeletez = (item) => {
     confirmDialog({
-      message: 'Bạn có chắc chắn muốn xóa dữ liệu này!',
-      header: 'HRZ',
-      icon: 'pi pi-info-circle',
+      message: "Bạn có chắc chắn muốn xóa dữ liệu này!",
+      header: "Search Map",
+      icon: "pi pi-info-circle",
       accept: async () => {
-        const response = await deleteApi(handleDelete(item));
-        if (response) showToast({ title: 'Xóa dữ liệu thành công!', severity: 'success' });
+        const response = await deleteData(`${deleteRoute}/${item._id}`, handleDelete(item));
+        if (response)
+          showToast({ title: "Xóa dữ liệu thành công!", severity: "success" });
         setParams((pre) => ({ ...pre, render: !pre.render }));
         onSuccess(item);
-      }
+      },
     });
   };
 
   const onExport = async () => {
     setIsLoading(true);
-    const response = await exportApi({ ...params, page: undefined, limit: undefined });
+    const response = await exportApi({
+      ...params,
+      page: undefined,
+      limit: undefined,
+    });
     setIsLoading(false);
     if (response) {
-      const downloadLink = document.createElement('a');
+      const downloadLink = document.createElement("a");
       downloadLink.href = URL.createObjectURL(response);
-      downloadLink.download = (title && `ket-qua-export-${removeSpecialCharacter(title)}.xlsx`) || 'data.xlsx';
+      downloadLink.download =
+        (title && `ket-qua-export-${removeSpecialCharacter(title)}.xlsx`) ||
+        "data.xlsx";
       downloadLink.click();
-      showToast({ title: `Export ${title?.toLowerCase()} thành công!`, severity: 'success' });
+      showToast({
+        title: `Export ${title?.toLowerCase()} thành công!`,
+        severity: "success",
+      });
     }
   };
 
   const onChangeStatus = (item) => {
     confirmDialog({
-      message: 'Bạn có chắc chắn muốn chuyển trạng thái dữ liệu này!',
-      header: 'HRZ',
-      icon: 'pi pi-info-circle',
+      message: "Bạn có chắc chắn muốn chuyển trạng thái dữ liệu này!",
+      header: "Search Map",
+      icon: "pi pi-info-circle",
       accept: async () => {
-        const response = await changeStatusApi(handleChangeStatus(item));
-        if (response) showToast({ title: 'Chuyển trạng thái thành công!', severity: 'success' });
+        const response = await postData(
+          `${changeStatusRoute}/${item._id}`,
+          "PUT",
+          handleChangeStatus(item)
+        );
+        if (response)
+          showToast({
+            title: "Chuyển trạng thái thành công!",
+            severity: "success",
+          });
         setParams((pre) => ({ ...pre, render: !pre.render }));
         onSuccess(item);
-      }
+      },
     });
   };
 
   const handleSelect = (callback = () => {}) => {
-    if (!(select?.length > 0)) return showToast({ title: `Vui lòng chọn ${title || 'dữ liệu'}!`, severity: 'warning' });
+    if (!(select?.length > 0))
+      return showToast({
+        title: `Vui lòng chọn ${title || "dữ liệu"}!`,
+        severity: "warning",
+      });
     callback();
   };
 
   useEffect(() => {
-    if (hideParams) return;
-    const query = {};
-    for (let key in params) {
-      if (params.hasOwnProperty(key)) {
-        const value = params[key];
-        if (!['render'].includes(key) && !['', undefined, null].includes(value)) query[key] = value;
-      }
-    }
+    // if (hideParams) return;
+    // const query = {};
+    // for (let key in params) {
+    //   if (params.hasOwnProperty(key)) {
+    //     const value = params[key];
+    //     if (!['render'].includes(key) && !['', undefined, null].includes(value)) query[key] = value;
+    //   }
+    // }
     // router.push(location.pathname + '?' + new URLSearchParams(query).toString());
   }, [JSON.stringify(params)]);
 
@@ -104,14 +159,16 @@ export const DataTable = (props) => {
     setParams({
       ...params,
       limit: event.rows,
-      page: event.page !== 0 ? event.page + 1 : 1
+      page: event.page !== 0 ? event.page + 1 : 1,
     });
   };
 
   const header = (
     <div className="flex gap-4 justify-start mb-1">
-      {baseActions.includes('create') && <Buttonz onClick={onCreate}>Thêm mới</Buttonz>}
-      {baseActions.includes('import') && (
+      {baseActions.includes("create") && (
+        <Buttonz onClick={onCreate}>Thêm mới</Buttonz>
+      )}
+      {baseActions.includes("import") && (
         <Buttonz
           severity="success"
           onClick={onImport}
@@ -121,7 +178,7 @@ export const DataTable = (props) => {
           Import
         </Buttonz>
       )}
-      {baseActions.includes('export') && (
+      {baseActions.includes("export") && (
         <Buttonz
           severity="success"
           onClick={onExport}
@@ -133,13 +190,24 @@ export const DataTable = (props) => {
         </Buttonz>
       )}
       {items?.length > 0 && (
-        <SplitButtonz model={items.map((item) => ({ ...item, onClick: () => handleSelect(item.onClick) }))} label="Tác vụ" raised />
+        <SplitButtonz
+          model={items.map((item) => ({
+            ...item,
+            onClick: () => handleSelect(item.onClick),
+          }))}
+          label="Tác vụ"
+          raised
+        />
       )}
       {moreHeader?.length > 0 &&
         moreHeader.map((header, index) => {
           return (
-            <Buttonz key={index} severity={header.severity} onClick={() => header.onClick()}>
-              {header.children() || ''}
+            <Buttonz
+              key={index}
+              severity={header.severity}
+              onClick={() => header.onClick()}
+            >
+              {header.children() || ""}
             </Buttonz>
           );
         })}
@@ -158,7 +226,7 @@ export const DataTable = (props) => {
         onPage={onPage}
         dataKey={key}
         loading={loading}
-        emptyMessage={'Không tìm thấy ' + title?.toLowerCase() || ''}
+        emptyMessage={"Không tìm thấy " + title?.toLowerCase() || ""}
         selection={select}
         onSelectionChange={(e) => {
           if (setSelect) setSelect(e.value);
@@ -169,11 +237,14 @@ export const DataTable = (props) => {
         {props.children}
         {isStatus && (
           <Columnz
-            headerStyle={{ padding: 'auto', textAlign: 'center' }}
+            headerStyle={{ padding: "auto", textAlign: "center" }}
             header="Trạng thái"
             body={(item) => (
               <div className="flex justify-center items-center">
-                <Switchz checked={Boolean(item.status)} onChange={() => onChangeStatus(item)} />
+                <Switchz
+                  checked={Boolean(item.status)}
+                  onChange={() => onChangeStatus(item)}
+                />
               </div>
             )}
           />
@@ -186,26 +257,28 @@ export const DataTable = (props) => {
 
               return (
                 <div className="flex justify-center items-center gap-2">
-                  {baseActions.includes('detail') && (
+                  {baseActions.includes("detail") && (
                     <Buttonz
                       onClick={() => onViewDetail(item)}
                       outlined
-                      className="!p-0 h-10 w-10 flex justify-center items-center !rounded-full"
+                      className="h-10 w-10 flex justify-center items-center"
                       icon={<DocumentMagnifyingGlassIcon className="w-6" />}
                     />
                   )}
-                  {baseActions.includes('delete') && !isHide && (
+                  {baseActions.includes("delete") && !isHide && (
                     <Buttonz
                       severity="danger"
                       outlined
-                      onClick={() => (onDelete ? onDelete(item) : onDeletez(item))}
-                      className="!p-0 h-10 w-10 flex justify-center items-center !rounded-full"
+                      onClick={() =>
+                        onDelete ? onDelete(item) : onDeletez(item)
+                      }
+                      className="h-10 w-10 flex justify-center items-center"
                       icon={<TrashIcon className="w-5" />}
                     />
                   )}
                   {moreActions?.length > 0 &&
                     moreActions.map((action, index) => {
-                      const severity = action.severity || '';
+                      const severity = action.severity || "";
                       const Icon = action.icon;
                       const isHide = action.isHide && action.isHide(item);
 
@@ -216,7 +289,7 @@ export const DataTable = (props) => {
                             severity={severity}
                             outlined
                             onClick={() => action.onClick(item)}
-                            className="!p-0 h-10 w-10 flex justify-center items-center !rounded-full"
+                            className="h-10 w-10 flex justify-center items-center"
                             icon={<Icon className="w-6" />}
                           />
                         )

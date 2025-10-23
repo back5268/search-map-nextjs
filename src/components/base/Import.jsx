@@ -1,3 +1,5 @@
+"use client"
+
 import { Buttonz, Dialogz } from '@/components/core';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import { removeSpecialCharacter } from '@/lib/helper';

@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import { Logo } from "./Logo";
 
@@ -13,7 +15,7 @@ export const AuthWrapper = (props) => {
       <div className="relative flex justify-center items-center">
         <div className="w-[24rem] py-12 px-6 shadow-custom bg-surface rounded-md">
           <div className="text-center">
-            <Logo className="mb-6" />
+            <Logo className="mb-6" classNameImg="h-16" />
             <p className="mb-8 text-md text-primary uppercase font-semibold">
               {headerLabel}
             </p>

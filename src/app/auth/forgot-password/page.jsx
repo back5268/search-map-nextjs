@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToastState } from "@/store";
 import { ForgotPasswordValidation } from "@/lib/validation";
 import { AuthWrapper } from "@/components/base/AuthWrapper";
-import { usePostData } from "@/hooks/usePostData";
+import { usePostData } from "@/hooks/useMutationData";
 import { useRouter } from "next/navigation";
 import { InputOtp } from "@/components/base/InputOtp";
 import { InputPassword } from "@/components/base/InputPassword";

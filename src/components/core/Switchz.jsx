@@ -1,3 +1,5 @@
+"use client"
+
 import { InputSwitch } from 'primereact/inputswitch';
 
 export const Switchz = (props) => {

@@ -1,3 +1,5 @@
+"use client"
+
 import { CheckBoxz } from '@/components/core';
 import React, { useEffect, useState } from 'react';
 

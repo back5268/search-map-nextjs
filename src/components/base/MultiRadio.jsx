@@ -1,3 +1,5 @@
+"use client"
+
 import { Radioz } from '@/components/core';
 import React from 'react';
 

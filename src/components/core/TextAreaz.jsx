@@ -1,3 +1,5 @@
+"use client"
+
 import { InputTextarea } from "primereact/inputtextarea";
 
 export const TextAreaz = (props) => {

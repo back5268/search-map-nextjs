@@ -1,3 +1,5 @@
+"use client"
+
 import { Cardz } from '@/components/core';
 import React from 'react';
 

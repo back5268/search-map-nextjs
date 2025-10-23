@@ -1,3 +1,5 @@
+"use client"
+
 import { SplitButton } from 'primereact/splitbutton';
 
 export const SplitButtonz = ({ ...prop }) => {

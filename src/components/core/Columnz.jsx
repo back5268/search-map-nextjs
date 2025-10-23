@@ -1,3 +1,5 @@
+"use client"
+
 import { Column } from 'primereact/column';
 
 export const Columnz = ({ ...prop }) => {

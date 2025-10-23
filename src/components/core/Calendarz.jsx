@@ -1,3 +1,5 @@
+"use client"
+
 import { Calendar } from 'primereact/calendar';
 
 export const Calendarz = (props) => {

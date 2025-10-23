@@ -1,4 +1,6 @@
-import { Buttonz, Cardz } from "@/components/core";
+"use client"
+
+import { Buttonz } from "@/components/core";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import React from "react";
 import { AvatarSection } from "./AvatarSection";

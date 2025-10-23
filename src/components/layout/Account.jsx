@@ -1,3 +1,5 @@
+"use client"
+
 import { Dialogz } from '@/components/core';
 import React from 'react';
 

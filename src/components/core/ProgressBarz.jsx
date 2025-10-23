@@ -1,3 +1,5 @@
+"use client"
+
 import { ProgressBar } from 'primereact/progressbar';
 import React from 'react';
 

@@ -3,16 +3,16 @@
 import { AuthWrapper } from "@/components/base/AuthWrapper";
 import { InputPassword } from "@/components/base/InputPassword";
 import { Buttonz, Inputz } from "@/components/core";
-import { usePostData } from "@/hooks/usePostData";
+import { useMutationData } from "@/hooks/useMutationData";
 import { LoginValidation } from "@/lib/validation";
-import { useToastState } from "@/store";
+import { useToastState } from "@/store/toastState";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function LogIn() {
   const router = useRouter();
-  const { mutateAsync, isPending } = usePostData("/api/auth/login");
+  const { mutateAsync, isPending } = useMutationData("/api/auth/login");
   const { showToast } = useToastState();
 
   const {

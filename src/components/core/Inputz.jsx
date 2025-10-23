@@ -1,3 +1,5 @@
+"use client"
+
 import { InputText } from "primereact/inputtext";
 
 export const Inputz = (props) => {

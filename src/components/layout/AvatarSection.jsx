@@ -1,9 +1,12 @@
+"use client"
+
 import { Buttonz } from "@/components/core";
 import { ArrowPathIcon, UserIcon } from "@heroicons/react/24/outline";
-import { useAccountState, useToastState } from "@/store";
 import React, { useEffect, useRef, useState } from "react";
 import { Account } from "./Account";
 import { useRouter } from "next/navigation";
+import { useAccountState } from "@/store/accountState";
+import { useToastState } from "@/store/toastState";
 
 export const AvatarSection = () => {
   const { account, setLoadingz, clearAccount } = useAccountState();

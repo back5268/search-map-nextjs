@@ -1,3 +1,5 @@
+"use client"
+
 import { Tagz } from '@/components/core';
 import { formatNumber } from '@/lib/helper';
 import moment from 'moment';

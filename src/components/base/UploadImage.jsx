@@ -1,3 +1,5 @@
+"use client"
+
 import { TrashIcon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
 import { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';

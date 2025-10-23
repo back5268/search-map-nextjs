@@ -1,27 +1,7 @@
-import { checkJson } from "./helper";
+import { checkJson } from "@/lib/helper";
+import { useMutation } from "@tanstack/react-query";
 
-export const getData = async (url, params, isBlob) => {
-  const query = params ? `?${new URLSearchParams(params).toString()}` : "";
-  const res = await fetch(`${url}${query}`, {
-    method: "GET",
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    const text = checkJson(await res.text());
-    text.status = 0;
-    return text;
-  } else if (!isBlob) {
-    const text = checkJson(await res.text());
-    text.status = 1;
-    return text;
-  }
-  if (isBlob) {
-    const blob = await res.blob();
-    return blob;
-  }
-};
-
-export const postData = async (url, params, isUpload) => {
+export const postData = async (url, method, params, isUpload) => {
   let res;
   if (isUpload) {
     const { formData, ...param } = params;
@@ -45,24 +25,53 @@ export const postData = async (url, params, isUpload) => {
     }
 
     res = await fetch(url, {
-      method: "POST",
+      method,
       body: data,
     });
   } else {
     res = await fetch(url, {
-      method: "POST",
+      method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
     });
   }
-  
+
   if (!res.ok) {
-    const text = checkJson(await res.text())
+    const text = checkJson(await res.text());
     text.status = 0;
     return text;
   } else {
-    const text = checkJson(await res.text())
+    const text = checkJson(await res.text());
     text.status = 1;
     return text;
   }
+};
+
+export const deleteData = async (url, params) => {
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+
+  const text = checkJson(await res.text());
+  text.status = res.ok ? 1 : 0;
+  return text;
+};
+
+export const useMutationData = (
+  url,
+  method = "POST",
+  isUpload = false,
+  onSuccess,
+  onError
+) => {
+  return useMutation({
+    mutationFn: (params) =>
+      method === "DELETE"
+        ? deleteData(url, params)
+        : postData(url, method, params, isUpload),
+    onSuccess,
+    onError,
+  });
 };

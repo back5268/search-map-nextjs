@@ -1,13 +1,17 @@
-import React from 'react';
+"use client"
 
-export const Logo = (props) => {
-  const { className = '', classNameImg = 'h-20' } = props;
+import Image from "next/image";
 
-  return (
-    <div className={`flex gap-4 justify-center items-center font-bold text-xl ${className}`}>
-      <div className={classNameImg}>
-        <img src="/images/logo.png" alt="Logo" className={classNameImg} />
-      </div>
-    </div>
-  );
-};
+export const Logo = ({ className = "", classNameImg = "h-16" }) => (
+  <div className={`flex justify-center items-center ${className}`}>
+    <Image
+      src="/images/logo.png"
+      alt="Logo"
+      width={160}
+      height={80}
+      priority // 👈 bắt load sớm, tránh lỗi lazy
+      unoptimized // 👈 tắt optimize trong dev
+      className={`${classNameImg} w-auto object-contain`}
+    />
+  </div>
+);

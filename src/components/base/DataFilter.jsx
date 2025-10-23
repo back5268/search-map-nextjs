@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect } from 'react';
 import { removeUndefinedProps } from '@/lib/helper';
 import { Buttonz } from '@/components/core';

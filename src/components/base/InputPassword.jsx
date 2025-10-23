@@ -1,3 +1,5 @@
+"use client"
+
 import { Inputz } from '@/components/core';
 import React, { useState } from 'react';
 

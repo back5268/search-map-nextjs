@@ -1,17 +1,23 @@
-import { Buttonz, Cardz, Dialogz, ProgressSpinnerz } from '@/components/core';
-import { useToastState } from '@/store';
+"use client";
+
+import { Buttonz, Cardz, Dialogz, ProgressSpinnerz } from "@/components/core";
+import { useMutationData } from "@/hooks/useMutationData";
+import { useToastState } from "@/store/toastState";
+import { useRouter } from "next/navigation";
 
 const Wrapper = ({ isModal, children, title, open, setOpen }) => {
   if (isModal)
     return (
-      <Dialogz className="w-[1200px]" header={title} open={open} setOpen={setOpen}>
+      <Dialogz header={title} open={open} setOpen={setOpen}>
         <div className="border-t border-border">{children}</div>
       </Dialogz>
     );
   else
     return (
       <Cardz>
-        <h2 className="font-bold uppercase leading-normal mb-2 p-2 text-primary">{title}</h2>
+        <h2 className="font-bold uppercase leading-normal mb-2 p-2 text-primary">
+          {title}
+        </h2>
         <hr />
         {children}
       </Cardz>
@@ -19,51 +25,63 @@ const Wrapper = ({ isModal, children, title, open, setOpen }) => {
 };
 
 export const FormDetail = (props) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { showToast } = useToastState();
   const {
-    type = 'modal',
+    type = "modal",
     title,
     children,
     open,
     setOpen = () => {},
     isUpdate,
-    createApi,
-    updateApi,
+    create = {},
+    update = {},
     handleData = () => {},
     handleSubmit = () => {},
     setParams = () => {},
-    onSuccess = () => {}
+    onSuccess = () => {},
   } = props;
-  const isModal = type === 'modal';
-  const { mutateAsync, isPending } = usePostApi(isUpdate ? updateApi : createApi);
-  const newTitle = `${isUpdate ? (updateApi ? 'Cập nhật' : 'Chi tiết') : 'Thêm mới'} ${title && String(title).toLocaleLowerCase()}`;
+  const isModal = type === "modal";
+  const { mutateAsync, isPending } = useMutationData(
+    isUpdate ? update?.route : create?.route,
+    isUpdate ? "PUT" : "POST",
+    isUpdate ? update?.isUpload : create?.isUpload
+  );
+  const newTitle = `${
+    isUpdate ? (update ? "Cập nhật" : "Chi tiết") : "Thêm mới"
+  } ${title && String(title).toLocaleLowerCase()}`;
 
   const onSubmit = async (e) => {
     const data = handleData(e);
-    if (typeof data === 'string') {
-      showToast({ title: data, severity: 'error' });
+    if (typeof data === "string") {
+      showToast({ title: data, severity: "error" });
       return;
     }
     const response = await mutateAsync(data);
     if (response) {
       onSuccess();
-      showToast({ title: `${newTitle} thành công!`, severity: 'success' });
+      showToast({ title: `${newTitle} thành công!`, severity: "success" });
       if (isModal) {
         setOpen(false);
         setParams((pre) => ({ ...pre, render: !pre.render }));
-      } else navigate(-1);
+      } else router.back();
     }
   };
 
   return (
     <Wrapper title={newTitle} isModal={isModal} open={open} setOpen={setOpen}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={`w-full ${isModal ? 'h-bodyModal overflow-scroll' : ''}`}>
+        <div
+          className={`w-full ${isModal ? "h-bodyModal overflow-scroll" : ""}`}
+        >
           <div className="relative w-full mt-4">
             {isPending && (
               <div className="absolute w-full h-full bg-black opacity-30 z-10 flex justify-center items-center">
-                <ProgressSpinnerz style={{ width: '50px', height: '50px' }} strokeWidth="4" animationDuration="1s" />
+                <ProgressSpinnerz
+                  style={{ width: "50px", height: "50px" }}
+                  strokeWidth="4"
+                  animationDuration="1s"
+                />
               </div>
             )}
             {children}
@@ -74,13 +92,15 @@ export const FormDetail = (props) => {
           <Buttonz
             outlined
             color="red"
-            label={isModal ? 'Hủy' : 'Trở lại'}
+            label={isModal ? "Hủy" : "Trở lại"}
             onClick={() => {
               if (isModal) setOpen(false);
               else navigate(-1);
             }}
           />
-          {((isUpdate && updateApi) || (!isUpdate && createApi)) && <Buttonz loading={isPending} type="submit" label="Xác nhận" />}
+          {((isUpdate && update) || (!isUpdate && create)) && (
+            <Buttonz loading={isPending} type="submit" label="Xác nhận" />
+          )}
         </div>
       </form>
     </Wrapper>

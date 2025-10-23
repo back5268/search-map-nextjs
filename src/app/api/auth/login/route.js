@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongoose";
-import { detailAccountMd, updateAccountMd } from "@/models/User";
+import { detailAccountMd, updateAccountMd } from "@/models/Account";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -29,12 +29,10 @@ export async function POST(req) {
       expiresIn: "1d",
     });
     await updateAccountMd({ username }, { lastLogin: new Date() });
-    const res = NextResponse.json({ success: true });
+    const res = NextResponse.json({ status: 1 });
     res.cookies.set("token", token, { httpOnly: true });
     return res;
   } catch (err) {
-    console.log(err);
-    
     return NextResponse.json({ mess: err.message }, { status: 500 });
   }
 }

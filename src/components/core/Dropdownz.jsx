@@ -1,3 +1,5 @@
+"use client"
+
 import { Dropdown } from 'primereact/dropdown';
 
 const Dropdownz = (props) => {

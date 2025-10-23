@@ -1,3 +1,5 @@
+"use client"
+
 import { DataTable } from 'primereact/datatable';
 
 const convertParams = (params) => {

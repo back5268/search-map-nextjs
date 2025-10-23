@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { NavItem } from './NavItem';
@@ -18,7 +20,7 @@ export const NavGroup = (props) => {
             else return [...pre, value];
           })
         }
-        className={`flex p-ripple items-center justify-between w-full p-3 rounded-sm ${isOpen ? 'bg-hoverSidebar text-onSidebar' : ''}`}
+        className={`flex p-ripple items-center justify-between w-full p-3 rounded-sm ${isOpen ? 'bg-hover-sidebar text-on-sidebar' : ''}`}
       >
         <div className="flex items-center gap-2 text-[0.8rem]">
           {Icon && <Icon className="h-5 w-5" />}

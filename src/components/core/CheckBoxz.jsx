@@ -1,3 +1,5 @@
+"use client"
+
 import { Checkbox } from 'primereact/checkbox';
 import React from 'react';
 

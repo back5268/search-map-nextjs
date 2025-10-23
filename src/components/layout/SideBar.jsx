@@ -1,3 +1,5 @@
+"use client"
+
 import { Buttonz } from "@/components/core";
 import { useEffect, useState } from "react";
 import {
@@ -24,7 +26,8 @@ const icons = {
 
 const tools = [
   { name: "Dashboard", route: "/", icon: "Squares2X2Icon" },
-  { name: "Quản lý vị trí", route: "/locations", icon: "Square3Stack3DIcon" },
+  { name: "Quản lý Công ty", route: "/company", icon: "Square3Stack3DIcon" },
+  { name: "Quản lý người dùng", route: "/account", icon: "UsersIcon" },
 ];
 
 export const SideBar = (props) => {
@@ -37,7 +40,7 @@ export const SideBar = (props) => {
   return (
     <div
       className={`fixed left-0 inset-y-0 h-screen z-40 w-68 flex flex-col justify-between border-r
-      transition-all duration-500 ease-in-out shadow-custom bg-sidebar text-onSidebar ${
+      transition-all duration-500 ease-in-out shadow-custom bg-sidebar text-on-sidebar ${
         showSidebar ? "" : "-translate-x-full"
       }`}
     >
@@ -47,8 +50,8 @@ export const SideBar = (props) => {
             <Logo classNameImg="h-16" />
           </div>
         </div>
-        <hr className="bg-onSidebar" />
-        <nav className="flex flex-col gap-1 text-sm font-normal text-inherit h-sidebar overflow-scroll mt-4 px-3">
+        <hr className="bg-ontext-on-sidebar" />
+        <nav className="flex flex-col text-sm font-normal text-inherit h-sidebar overflow-scroll mt-4 px-3">
           {tools?.map((item, index) => {
             const Icon = icons[item.icon];
             if (!item.items)
@@ -75,7 +78,7 @@ export const SideBar = (props) => {
           })}
         </nav>
       </div>
-      <div className="p-3 border-t border-onSidebar">
+      <div className="p-3 border-t border-ontext-on-sidebar">
         <Buttonz
           outlined
           onClick={() => onSignOut()}

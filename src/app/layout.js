@@ -2,8 +2,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 import { ReactQueryProvider } from "@/components/provider/ReactQueryProvider";
 import { Toastify } from "@/components/base/Toastify";
+import { ConfirmDialogz } from "@/components/core";
 
 import "./globals.css";
+import 'primereact/resources/primereact.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Search Map",
   description: "Search Map",
+  icons: {
+    icon: "/images/logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -27,8 +32,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <PrimeReactProvider value={{ ripple: true, inputStyle: "outlined" }}>
+          <PrimeReactProvider value={{ ripple: true }}>
             <Toastify />
+            <ConfirmDialogz />
             {children}
           </PrimeReactProvider>
         </ReactQueryProvider>

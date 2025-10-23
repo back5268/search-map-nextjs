@@ -1,3 +1,5 @@
+"use client"
+
 import { ProgressBarz } from '@/components/core';
 import React, { useEffect, useState } from 'react';
 
@@ -16,7 +18,7 @@ export const LazyLoading = () => {
 
   return (
     loading && (
-      <div className="fixed z-[1050] inset-x-0 top-0 h-2">
+      <div className="fixed z-1050 inset-x-0 top-0 h-2">
         <ProgressBarz mode="indeterminate" style={{ height: '6px' }}></ProgressBarz>
       </div>
     )

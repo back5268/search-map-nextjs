@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
 import { useToastState, useUserState } from '@/store';
 import { SideBar } from './SideBar';
@@ -37,7 +39,7 @@ export const Layout = ({ children }) => {
       )}
       <TopBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} onSignOut={onSignOut} />
       <SideBar showSidebar={showSidebar} onSignOut={onSignOut} />
-      <div className={`relative transition-all duration-500 ease-in-out py-8 px-6 mt-14 ${showSidebar ? 'lg:ml-[17rem]' : ''}`}>{children}</div>
+      <div className={`relative transition-all duration-500 ease-in-out py-8 px-6 mt-14 ${showSidebar ? 'lg:ml-68' : ''}`}>{children}</div>
     </div>
   );
 };

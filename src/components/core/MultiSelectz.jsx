@@ -1,3 +1,5 @@
+"use client"
+
 import { MultiSelect } from 'primereact/multiselect';
 
 export const MultiSelectz = (props) => {

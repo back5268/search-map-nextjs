@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-export async function middleware(req) {
+export async function proxy(req) {
   const token = req.cookies.get("token")?.value;
   const url = req.nextUrl.pathname;
 
@@ -27,5 +27,8 @@ export async function middleware(req) {
 
 // 🔧 Chạy middleware cho tất cả route trừ _next và static files
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|images/|icons/|fonts/).*)",
+  ],
 };
+

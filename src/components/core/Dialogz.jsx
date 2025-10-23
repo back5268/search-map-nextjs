@@ -1,7 +1,9 @@
+"use client"
+
 import { Dialog } from 'primereact/dialog';
 
 export const Dialogz = (props) => {
-  const { header = '', children, open, setOpen = () => {}, position = 'top', width = '1200px' } = props;
+  const { header = '', children, open, setOpen = () => {}, position = 'top', width = '1400px' } = props;
 
   return (
     <Dialog
@@ -10,6 +12,7 @@ export const Dialogz = (props) => {
       style={{ width }}
       header={header}
       visible={open}
+      appendTo="self"
       onHide={() => {
         if (!open) return;
         setOpen(false);

@@ -1,5 +1,7 @@
+"use client"
+
 import { Buttonz, Inputz } from '@/components/core';
-import { usePostData } from '@/hooks/usePostData';
+import { usePostData } from '@/hooks/useMutationData';
 import { useToastState } from '@/store';
 import React from 'react';
 
