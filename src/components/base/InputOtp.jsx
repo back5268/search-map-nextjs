@@ -1,10 +1,11 @@
 import { Buttonz, Inputz } from '@/components/core';
+import { usePostData } from '@/hooks/usePostData';
 import { useToastState } from '@/store';
 import React from 'react';
 
 export const InputOtp = (props) => {
-  const { isSend, setIsSend, SendOtpApi, username, ...prop } = props;
-  const { mutateAsync, isPending } = usePostApi(SendOtpApi);
+  const { isSend, setIsSend, SendOtpRoute, username, ...prop } = props;
+  const { mutateAsync, isPending } = usePostData(SendOtpRoute);
   const { showToast } = useToastState();
 
   const onSendOtp = async () => {
@@ -17,9 +18,9 @@ export const InputOtp = (props) => {
   };
 
   return (
-    <div className="flex gap-4 items-start justify-between w-full">
+    <div className="flex gap-4 items-center justify-between w-full">
       <Inputz label="Mã OTP (*)" {...prop} />
-      <Buttonz onClick={onSendOtp} loading={isPending} className="mt-1 text-center min-w-[100px]" label="Gửi OTP" />
+      <Buttonz onClick={onSendOtp} loading={isPending} className="mt-1 text-center w-[120px]" label="Gửi OTP" />
     </div>
   );
 };

@@ -3,28 +3,20 @@
 
 @theme inline {
   --color-primary: #3f51b5;
-  --color-on-primary: rgb(255, 255, 255);
-  --color-secondary: rgb(75, 98, 105);
-  --color-background: rgb(251, 252, 253);
+  --color-title: rgba(47, 43, 61, 0.9);
+  --color-secondary: rgb(82, 96, 112);
+  --color-border: rgba(176, 190, 197, 1);
   --color-surface: rgb(251, 252, 253);
-  --color-border: rgba(0, 0, 0, 0.4);
   --color-sidebar: rgba(47, 51, 73, 1);
   --color-hover-sidebar: rgba(225, 222, 245, 0.15);
   --color-on-sidebar: rgba(225, 222, 245, 0.9);
+  --shadow-custom: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 @layer components {
   .card {
-    @apply rounded-md p-4 border-[1px] border-border;
+    @apply rounded-md p-4 border border-border;
   }
-}
-
-:root {
-  --primary-color: #3f51b5;
-  --border-color: rgba(176, 190, 197, 1);
-  --background-color: rgb(222, 227, 235);
-  --secondary-color: rgb(82, 96, 112);
-  --text-color: rgba(47, 43, 61, 0.9);
 }
 
 body {

@@ -1,3 +1,5 @@
+"use client"
+
 import { useToastState } from '@/store';
 import React, { useEffect } from 'react';
 

@@ -1,20 +1,24 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { useToastState, useUserState } from "@/store";
+import { useAccountState, useToastState } from "@/store";
 import { TopBar } from "@/components/layout/TopBar";
 import { SideBar } from "@/components/layout/SideBar";
+import { usePostData } from "@/hooks/usePostData";
+import { useRouter } from "next/navigation";
 
 export default function Layout({ children }) {
+  const router = useRouter()
   const [showSidebar, setShowSidebar] = useState(true);
-  const { clearUserInfo, setLoadingz } = useUserState();
+  const { clearAccount, setLoadingz } = useAccountState();
   const { showToast } = useToastState();
+  const { mutateAsync } = usePostData("/api/auth/logout");
 
-  const onSignOut = () => {
-    clearUserInfo();
-    localStorage.removeItem("token");
+  const onSignOut = async () => {
+    await mutateAsync()
+    clearAccount();
     showToast({ title: "Đăng xuất thành công", severity: "success" });
-    setLoadingz();
+    router.push('/auth/login')
   };
 
   useEffect(() => {

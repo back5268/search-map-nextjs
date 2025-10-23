@@ -1,6 +1,8 @@
-"use client"
+"use client";
 
-import { DataTable, FormList, DataFilter } from "@/components/base";
+import { DataFilter } from "@/components/base/DataFilter";
+import { DataTable } from "@/components/base/DataTable";
+import { FormList } from "@/components/base/FormList";
 import { Columnz, Inputzz } from "@/components/core";
 import React, { useState } from "react";
 
@@ -14,7 +16,7 @@ export default function Locations() {
         setParams={setParams}
         filter={filter}
         setFilter={setFilter}
-        className="lg:w-full"
+        className="lg:w-9/12"
       >
         <Inputzz
           value={filter.keySearch}

@@ -1,4 +1,3 @@
-import { Logo } from "@/components/base";
 import { Buttonz } from "@/components/core";
 import { useEffect, useState } from "react";
 import {
@@ -12,6 +11,7 @@ import {
 import { NavItem } from "./NavItem";
 import { NavGroup } from "./NavGroup";
 import { usePathname } from "next/navigation";
+import { Logo } from "@/components/base/Logo";
 
 const icons = {
   Squares2X2Icon,
