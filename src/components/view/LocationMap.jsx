@@ -41,7 +41,7 @@ function LocationMarker({ onSelect }) {
   ) : null;
 }
 
-export const LocationMap = ({ setLocation, height = 'h-[1000px]' }) => {
+export default function LocationMap({ setLocation, height = 'h-[1000px]' }) {
   return (
     <MapContainer
       center={[21.027629289365255, 105.85234880447388]}

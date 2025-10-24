@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-export const OverviewMap = ({ coords = [], locations = [] }) => {
+export default function OverviewMap({ coords = [], locations = [] }) {
   return (
     <div className="w-full h-[calc(100vh-120px)]">
       <MapContainer
@@ -76,4 +76,4 @@ export const OverviewMap = ({ coords = [], locations = [] }) => {
       </MapContainer>
     </div>
   );
-};
+}

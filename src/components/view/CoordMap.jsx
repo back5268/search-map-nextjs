@@ -63,7 +63,7 @@ const PolygonDrawer = ({ onPolygonsChange }) => {
   return null;
 };
 
-export const CoordMap = ({ setCoords, height = 'h-[1000px]'}) => {
+export default function CoordMap({ setCoords, height = "h-[1000px]" }) {
   return (
     <MapContainer
       center={[21.027629289365255, 105.85234880447388]}
@@ -77,4 +77,4 @@ export const CoordMap = ({ setCoords, height = 'h-[1000px]'}) => {
       <PolygonDrawer onPolygonsChange={setCoords} />
     </MapContainer>
   );
-};
+}
