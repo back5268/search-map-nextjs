@@ -1,8 +1,12 @@
 "use client";
 
-import { OverviewNap } from "@/components/view/OverViewMap";
 import { useGetData } from "@/hooks/useGetData";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const OverviewMap = dynamic(() => import("@/components/view/OverviewMap"), {
+  ssr: false, // 🚫 disable SSR để tránh lỗi window/document
+});
 
 export default function DashBoard() {
   const [coords, setCoords] = useState([]);
@@ -41,5 +45,5 @@ export default function DashBoard() {
     }
   }, [JSON.stringify(dataz)]);
 
-  return <OverviewNap locations={locations} coords={coords} />;
+  return <OverviewMap locations={locations} coords={coords} />;
 }

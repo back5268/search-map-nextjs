@@ -7,12 +7,20 @@ import { CompanyValidation } from "@/lib/validation";
 import { DropdownFormz, InputFormz, TextAreaz } from "../core";
 import { FormDetail } from "../base/FormDetail";
 import { checkEqualProp } from "@/lib/helper";
-import { OverviewNap } from "./OverViewMap";
-import { LocationMap } from "./LocationMap";
-import { CoordMap } from "./CoordMap";
 import { useParams } from "next/navigation";
 import { useGetData } from "@/hooks/useGetData";
 import { ColorPicker } from "primereact/colorpicker";
+import dynamic from "next/dynamic";
+
+const OverviewMap = dynamic(() => import("./OverviewMap"), {
+  ssr: false, // 🚫 disable SSR để tránh lỗi window/document
+});
+const LocationMap = dynamic(() => import("./LocationMap"), {
+  ssr: false, // 🚫 disable SSR để tránh lỗi window/document
+});
+const CoordMap = dynamic(() => import("./CoordMap"), {
+  ssr: false, // 🚫 disable SSR để tránh lỗi window/document
+});
 
 const defaultValues = {
   name: "",
@@ -140,7 +148,7 @@ export const Company = () => {
         </div>
         <div className="px-2 mt-4">
           {isUpdate ? (
-            <OverviewNap
+            <OverviewMap
               locations={location?.lat ? [location] : []}
               coords={
                 coords?.[0]
@@ -148,7 +156,7 @@ export const Company = () => {
                       name: item?.data?.name,
                       address: item?.data?.address,
                       coords: coord,
-                      color: item?.data?.color
+                      color: item?.data?.color,
                     }))
                   : []
               }
