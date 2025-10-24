@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: false, // 🚫 tắt Turbopack, buộc Next.js dùng Webpack
-  },
+  /* config options here */
+  reactCompiler: true,
 };
 
 export default nextConfig;

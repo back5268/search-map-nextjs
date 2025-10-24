@@ -58,14 +58,14 @@ export const FormDetail = (props) => {
       return;
     }
     const response = await mutateAsync(data);
-    if (response) {
+    if (response?.status) {
       onSuccess();
       showToast({ title: `${newTitle} thành công!`, severity: "success" });
       if (isModal) {
         setOpen(false);
         setParams((pre) => ({ ...pre, render: !pre.render }));
       } else router.back();
-    }
+    } else showToast({ title: response.mess, severity: "error" });
   };
 
   return (
@@ -95,7 +95,7 @@ export const FormDetail = (props) => {
             label={isModal ? "Hủy" : "Trở lại"}
             onClick={() => {
               if (isModal) setOpen(false);
-              else navigate(-1);
+              else router.back()
             }}
           />
           {((isUpdate && update) || (!isUpdate && create)) && (

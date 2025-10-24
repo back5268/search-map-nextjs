@@ -44,8 +44,8 @@ function LocationMarker({ onSelect }) {
 export const LocationMap = ({ setLocation, height = 'h-[1000px]' }) => {
   return (
     <MapContainer
-      center={[21.0285, 105.854]}
-      zoom={15}
+      center={[21.027629289365255, 105.85234880447388]}
+      zoom={16}
       className={`w-full ${height}`}
     >
       <TileLayer

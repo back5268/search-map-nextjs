@@ -11,7 +11,7 @@ import { checkEqualProp } from "@/lib/helper";
 const defaultValues = {
   fullName: "",
   email: "",
-  username: 1,
+  username: "",
 };
 
 export const Account = (props) => {

@@ -17,8 +17,10 @@ import {
 } from "@/components/core";
 import { confirmDialog } from "primereact/confirmdialog";
 import { deleteData, postData } from "@/hooks/useMutationData";
+import { useToastState } from "@/store/toastState";
 
 export const DataTable = (props) => {
+  const { showToast } = useToastState();
   const [isLoading, setIsLoading] = useState(false);
   const {
     title,

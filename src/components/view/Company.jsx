@@ -12,6 +12,7 @@ import { LocationMap } from "./LocationMap";
 import { CoordMap } from "./CoordMap";
 import { useParams } from "next/navigation";
 import { useGetData } from "@/hooks/useGetData";
+import { ColorPicker } from "primereact/colorpicker";
 
 const defaultValues = {
   name: "",
@@ -19,12 +20,14 @@ const defaultValues = {
   address: "",
   description: "",
   type: 1,
+  color: "#0891b2",
 };
 
 export const Company = () => {
   const { id } = useParams();
   const isUpdate = !!id;
-  const { data: item } = useGetData(`/api/company/${id}`) || {};
+  const { data: item } =
+    useGetData(`/api/company/${id}`, {}, false, isUpdate) || {};
   const [location, setLocation] = useState({});
   const [coords, setCoords] = useState([]);
 
@@ -51,8 +54,12 @@ export const Company = () => {
   }, [item]);
 
   const handleData = (data) => {
-    const newData = { ...data, location, coords };
-    if (isUpdate) return { ...checkEqualProp(newData, item), _id: open };
+    const newData = { ...data };
+    if (!isUpdate) {
+      newData.location = location;
+      newData.coords = coords.map((coord) => coord.map((c) => [c.lat, c.lng]));
+    }
+    if (isUpdate) return { ...checkEqualProp(newData, item), _id: id };
     else return newData;
   };
 
@@ -60,11 +67,6 @@ export const Company = () => {
     <FormDetail
       type="nomal"
       title="công ty"
-      open={open}
-      setOpen={() => {
-        setOpen(false);
-        reset();
-      }}
       isUpdate={isUpdate}
       handleData={handleData}
       handleSubmit={handleSubmit}
@@ -118,10 +120,39 @@ export const Company = () => {
             errors={errors}
             register={register}
           />
+
+          {watch("type") === 2 ? (
+            <div className="lg:w-6/12 px-2">
+              <div className="w-full rounded-md border border-border flex px-2">
+                <label className="w-full py-4 font-medium">Màu sắc</label>
+                <div className="flex items-center gap-4">
+                  <ColorPicker
+                    value={watch("color")}
+                    onChange={(e) => setValue("color", `#${e.value}`)}
+                    format="hex"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="px-2">
+        <div className="px-2 mt-4">
           {isUpdate ? (
-            <OverviewNap locations={location?.lat ? [location] : []} coords={coords?.[0] ? [coords] : []} />
+            <OverviewNap
+              locations={location?.lat ? [location] : []}
+              coords={
+                coords?.[0]
+                  ? coords.map((coord) => ({
+                      name: item?.data?.name,
+                      address: item?.data?.address,
+                      coords: coord,
+                      color: item?.data?.color
+                    }))
+                  : []
+              }
+            />
           ) : watch("type") === 1 ? (
             <LocationMap setLocation={setLocation} height={"h-[700px]"} />
           ) : (

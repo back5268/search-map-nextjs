@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -14,14 +14,11 @@ L.Icon.Default.mergeOptions({
 });
 
 export const OverviewNap = ({ coords = [], locations = [] }) => {
-  const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState(null);
-
   return (
     <div className="w-full h-[calc(100vh-120px)]">
       <MapContainer
-        center={[21.028511, 105.854167]}
-        zoom={14}
+        center={[21.027629289365255, 105.85234880447388]}
+        zoom={16}
         className="w-full h-[calc(100vh-120px)]"
       >
         <TileLayer
@@ -30,44 +27,52 @@ export const OverviewNap = ({ coords = [], locations = [] }) => {
           className="z-10"
         />
 
-        {coords.map((zone, index) => (
-          <Polygon
-            key={index}
-            pathOptions={{
-              color: zone.color,
-              fillOpacity: 0.4,
-              weight: 2,
-            }}
-            positions={zone.coords}
-            eventHandlers={{
-              click: () => {
-                setSelected(zone);
-                setVisible(true);
-              },
-            }}
-          >
-            <Popup>{zone.name}</Popup>
-          </Polygon>
-        ))}
+        {!!coords?.length
+          ? coords.map((item, index) => (
+              <Polygon
+                key={index}
+                pathOptions={{
+                  color: item.color,
+                  fillOpacity: 0.4,
+                  weight: 2,
+                }}
+                positions={item.coords}
+                eventHandlers={{
+                  click: () => {},
+                }}
+              >
+                <Popup>
+                  <div className="flex flex-col gap-1">
+                    <b>{item.name}</b>
+                    <hr />
+                    <span>Địa chỉ: {item.address}</span>
+                    <span>Mã số thuế: {item.tax}</span>
+                  </div>
+                </Popup>
+              </Polygon>
+            ))
+          : ""}
 
-        {locations.map((loc, index) => (
-          <Marker
-            key={index}
-            position={[loc.lat, loc.lng]}
-            eventHandlers={{
-              click: () => {
-                setSelected(loc);
-                setVisible(true);
-              },
-            }}
-          >
-            <Popup>
-              <b>{loc.name}</b>
-              <br />
-              Lat: {loc.lat}, Lng: {loc.lng}
-            </Popup>
-          </Marker>
-        ))}
+        {!!locations?.length
+          ? locations.map((item, index) => (
+              <Marker
+                key={index}
+                position={[item.lat, item.lng]}
+                eventHandlers={{
+                  click: () => {},
+                }}
+              >
+                <Popup>
+                  <div className="flex flex-col gap-1">
+                    <b>{item.name}</b>
+                    <hr />
+                    <span>Địa chỉ: {item.address}</span>
+                    <span>Mã số thuế: {item.tax}</span>
+                  </div>
+                </Popup>
+              </Marker>
+            ))
+          : ""}
       </MapContainer>
     </div>
   );

@@ -10,7 +10,9 @@ CompanyMd.init("Company", {
   color: { type: String },
   type: { type: Number },
   location: { type: Object },
-  coords: [{ type: String }],
+  coords: {
+    type: [[[Number]]],
+  },
   status: { type: Number },
   deletedAt: { type: Date },
 });

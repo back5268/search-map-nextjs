@@ -66,8 +66,8 @@ const PolygonDrawer = ({ onPolygonsChange }) => {
 export const CoordMap = ({ setCoords, height = 'h-[1000px]'}) => {
   return (
     <MapContainer
-      center={[21.028511, 105.804817]}
-      zoom={15}
+      center={[21.027629289365255, 105.85234880447388]}
+      zoom={16}
       className={`w-full ${height}`}
     >
       <TileLayer

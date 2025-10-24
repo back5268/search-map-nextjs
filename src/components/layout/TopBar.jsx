@@ -21,9 +21,9 @@ export const TopBar = (props) => {
             className="h-9 w-9 flex justify-center items-center"
             icon={<Bars3Icon className="w-8 stroke-2" />}
           />
-          <div className="flex gap-3 justify-between items-center mr-2">
+          {/* <div className="flex gap-3 justify-between items-center mr-2">
             <AvatarSection onSignOut={onSignOut} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
