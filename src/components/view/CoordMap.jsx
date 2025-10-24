@@ -6,6 +6,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-draw";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import "leaflet-geosearch/dist/geosearch.css";
 
 const PolygonDrawer = ({ onPolygonsChange }) => {
   const map = useMap();
@@ -27,7 +29,7 @@ const PolygonDrawer = ({ onPolygonsChange }) => {
     });
     map.addControl(drawControl);
 
-    // Cập nhật toàn bộ danh sách tọa độ
+    // Tính tất cả polygon
     const updateAllCoords = () => {
       const allCoords = [];
       drawnItems.eachLayer((layer) => {
@@ -42,38 +44,61 @@ const PolygonDrawer = ({ onPolygonsChange }) => {
       onPolygonsChange?.(allCoords);
     };
 
-    // Khi tạo mới polygon
-    map.on(L.Draw.Event.CREATED, (event) => {
-      drawnItems.addLayer(event.layer);
+    map.on(L.Draw.Event.CREATED, (e) => {
+      drawnItems.addLayer(e.layer);
       updateAllCoords();
     });
-
-    // Khi xóa hoặc chỉnh sửa
-    map.on(L.Draw.Event.DELETED, updateAllCoords);
     map.on(L.Draw.Event.EDITED, updateAllCoords);
+    map.on(L.Draw.Event.DELETED, updateAllCoords);
 
     return () => {
       map.removeControl(drawControl);
-      map.off(L.Draw.Event.CREATED);
-      map.off(L.Draw.Event.DELETED);
-      map.off(L.Draw.Event.EDITED);
     };
   }, [map, onPolygonsChange]);
 
   return null;
 };
 
-export default function CoordMap({ setCoords, height = "h-[1000px]" }) {
+const SearchBox = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    const provider = new OpenStreetMapProvider();
+
+    const searchControl = new GeoSearchControl({
+      provider,
+      style: "bar",
+      showMarker: true,
+      showPopup: true,
+      marker: {
+        icon: new L.Icon.Default(),
+        draggable: false,
+      },
+      popupFormat: ({ result }) => `${result.label}`,
+      autoClose: true,
+      retainZoomLevel: false,
+    });
+
+    map.addControl(searchControl);
+
+    return () => map.removeControl(searchControl);
+  }, [map]);
+
+  return null;
+};
+
+export default function CoordMap({ setCoords, height = "h-[600px]" }) {
   return (
     <MapContainer
-      center={[21.027629289365255, 105.85234880447388]}
-      zoom={16}
+      center={[21.0276, 105.8523]}
+      zoom={15}
       className={`w-full ${height}`}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
       />
+      <SearchBox />
       <PolygonDrawer onPolygonsChange={setCoords} />
     </MapContainer>
   );
