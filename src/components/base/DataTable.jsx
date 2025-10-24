@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   TrashIcon,
   DocumentMagnifyingGlassIcon,
@@ -16,12 +16,9 @@ import {
   Tablez,
 } from "@/components/core";
 import { confirmDialog } from "primereact/confirmdialog";
-import { useParams, useRouter } from "next/navigation";
 import { deleteData, postData } from "@/hooks/useMutationData";
 
 export const DataTable = (props) => {
-  const router = useRouter();
-  const location = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const {
     title,
@@ -81,11 +78,15 @@ export const DataTable = (props) => {
       header: "Search Map",
       icon: "pi pi-info-circle",
       accept: async () => {
-        const response = await deleteData(`${deleteRoute}/${item._id}`, handleDelete(item));
-        if (response)
+        const response = await deleteData(
+          `${deleteRoute}/${item._id}`,
+          handleDelete(item)
+        );
+        if (response?.status) {
           showToast({ title: "Xóa dữ liệu thành công!", severity: "success" });
-        setParams((pre) => ({ ...pre, render: !pre.render }));
-        onSuccess(item);
+          setParams((pre) => ({ ...pre, render: !pre.render }));
+          onSuccess(item);
+        } else showToast({ title: response.mess, severity: "error" });
       },
     });
   };
@@ -123,13 +124,14 @@ export const DataTable = (props) => {
           "PUT",
           handleChangeStatus(item)
         );
-        if (response)
+        if (response?.status) {
           showToast({
             title: "Chuyển trạng thái thành công!",
             severity: "success",
           });
-        setParams((pre) => ({ ...pre, render: !pre.render }));
-        onSuccess(item);
+          setParams((pre) => ({ ...pre, render: !pre.render }));
+          onSuccess(item);
+        } else showToast({ title: response.mess, severity: "error" });
       },
     });
   };
@@ -142,18 +144,6 @@ export const DataTable = (props) => {
       });
     callback();
   };
-
-  useEffect(() => {
-    // if (hideParams) return;
-    // const query = {};
-    // for (let key in params) {
-    //   if (params.hasOwnProperty(key)) {
-    //     const value = params[key];
-    //     if (!['render'].includes(key) && !['', undefined, null].includes(value)) query[key] = value;
-    //   }
-    // }
-    // router.push(location.pathname + '?' + new URLSearchParams(query).toString());
-  }, [JSON.stringify(params)]);
 
   const onPage = (event) => {
     setParams({

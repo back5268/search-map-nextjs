@@ -22,3 +22,12 @@ export const CompanyValidation = yup.object({
   tax: yup.string().required("Mã số thuê không được bỏ trống!"),
   address: yup.string().required("Địa chỉ không được bỏ trống!"),
 });
+
+export const AccountValidation = yup.object({
+  fullName: yup.string().required("Họ tên không được bỏ trống!"),
+  username: yup.string().required("Tài khoản không được bỏ trống!"),
+  email: yup
+    .string()
+    .email("Email không đúng định dạng!")
+    .required("Email không được bỏ trống!"),
+});

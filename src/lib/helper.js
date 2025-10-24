@@ -290,3 +290,11 @@ export const validNumberInt = (value) => {
   }
   return false;
 };
+
+export const generateNumber = (length) => {
+  let result = "";
+  for (var i = 0; i < length; i++) {
+    result += Math.floor(Math.random() * 10);
+  }
+  return result;
+};

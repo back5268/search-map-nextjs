@@ -1,22 +1,22 @@
 "use client"
 
 import { Buttonz, Inputz } from '@/components/core';
-import { usePostData } from '@/hooks/useMutationData';
-import { useToastState } from '@/store';
+import { useMutationData } from '@/hooks/useMutationData';
+import { useToastState } from '@/store/toastState';
 import React from 'react';
 
 export const InputOtp = (props) => {
-  const { isSend, setIsSend, SendOtpRoute, username, ...prop } = props;
-  const { mutateAsync, isPending } = usePostData(SendOtpRoute);
+  const { isSend, setIsSend, sendOtpRoute, username, ...prop } = props;
+  const { mutateAsync, isPending } = useMutationData(sendOtpRoute);
   const { showToast } = useToastState();
 
   const onSendOtp = async () => {
     if (!username) return showToast({ title: `Vui lòng nhập tài khoản!`, severity: 'error' });
     const response = await mutateAsync({ username });
-    if (response) {
-      showToast({ title: `Đã gửi mã OTP đến email ${response}`, severity: 'success' });
+    if (response?.status) {
+      showToast({ title: `Đã gửi mã OTP đến email ${response?.data}`, severity: 'success' });
       setIsSend(true);
-    }
+    } else showToast({ title: response.mess, severity: 'error' });
   };
 
   return (

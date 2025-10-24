@@ -3,7 +3,7 @@
 import { DataFilter } from "@/components/base/DataFilter";
 import { DataTable } from "@/components/base/DataTable";
 import { FormList } from "@/components/base/FormList";
-import { Columnz, Inputzz } from "@/components/core";
+import { Columnz, Dropdownzz, Inputzz } from "@/components/core";
 import { useGetData } from "@/hooks/useGetData";
 import { useGetParams } from "@/hooks/useGetParams";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ export default function CompanyPage() {
         setParams={setParams}
         filter={filter}
         setFilter={setFilter}
-        className="lg:w-6/12"
+        className="lg:w-3/12"
       >
         <Inputzz
           value={filter.name}
@@ -35,6 +35,15 @@ export default function CompanyPage() {
           value={filter.address}
           onChange={(e) => setFilter({ ...filter, address: e.target.value })}
           label="Tìm kiếm theo địa chỉ"
+        />
+        <Dropdownzz
+          value={filter.type}
+          onChange={(e) => setFilter({ ...filter, type: e.target.value })}
+          options={[
+            { _id: 0, name: "Dừng hoạt động" },
+            { _id: 1, name: "Hoạt động" },
+          ]}
+          label="Trạng thái"
         />
       </DataFilter>
       <DataTable

@@ -4,18 +4,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Buttonz, Inputz } from "@/components/core";
 import { useState } from "react";
-import { useToastState } from "@/store";
 import { ForgotPasswordValidation } from "@/lib/validation";
 import { AuthWrapper } from "@/components/base/AuthWrapper";
-import { usePostData } from "@/hooks/useMutationData";
+import { useMutationData } from "@/hooks/useMutationData";
 import { useRouter } from "next/navigation";
 import { InputOtp } from "@/components/base/InputOtp";
 import { InputPassword } from "@/components/base/InputPassword";
+import { useToastState } from "@/store/toastState";
 
 export default function ForgotPassword() {
   const router = useRouter();
   const { showToast } = useToastState();
-  const { mutateAsync, isPending } = usePostData("/api/auth/confirm-password");
+  const { mutateAsync, isPending } = useMutationData("/api/auth/confirm-password");
   const [isSend, setIsSend] = useState(false);
 
   const {
@@ -30,7 +30,7 @@ export default function ForgotPassword() {
     const response = await mutateAsync(data);
     if (response.status) {
       showToast({ title: "Đổi mật khẩu thành công", severity: "success" });
-      router.push("/auth/sign-in");
+      router.push("/auth/login");
     } else showToast({ title: response.mess || "", severity: "error" });
   };
 
@@ -59,7 +59,7 @@ export default function ForgotPassword() {
           errors={errors}
           isSend={isSend}
           setIsSend={setIsSend}
-          SendOtpRoute="/api/auth/forgot-password"
+          sendOtpRoute="/api/auth/forgot-password"
         />
         {isSend && (
           <InputPassword

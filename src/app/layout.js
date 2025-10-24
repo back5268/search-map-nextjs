@@ -1,11 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { PrimeReactProvider } from "primereact/api";
 import { ReactQueryProvider } from "@/components/provider/ReactQueryProvider";
-import { Toastify } from "@/components/base/Toastify";
-import { ConfirmDialogz } from "@/components/core";
+import { PrimeProvider } from "@/components/provider/PrimeProvider";
 
 import "./globals.css";
-import 'primereact/resources/primereact.css';
+import "primereact/resources/primereact.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,11 +30,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <PrimeReactProvider value={{ ripple: true }}>
-            <Toastify />
-            <ConfirmDialogz />
-            {children}
-          </PrimeReactProvider>
+          <PrimeProvider>{children}</PrimeProvider>
         </ReactQueryProvider>
       </body>
     </html>

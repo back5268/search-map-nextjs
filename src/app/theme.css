@@ -1,4 +1,7 @@
 :root {
+  font-family: Roboto, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  --font-family: Roboto, "Helvetica Neue Light", "Helvetica Neue", Helvetica,
+    Arial, "Lucida Grande", sans-serif;
   --surface-a: #ffffff;
   --surface-b: #fafafa;
   --surface-c: rgba(0, 0, 0, 0.04);
@@ -44,6 +47,33 @@
   --highlight-bg: rgba(8, 145, 178, 0.12);
   --highlight-text-color: #0891b2;
   color-scheme: light;
+}
+
+/* roboto-regular - latin-ext_latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"), url("/fonts/roboto-v20-latin-ext_latin-regular.woff2") format("woff2"), url("/fonts/roboto-v20-latin-ext_latin-regular.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* roboto-500 - latin-ext_latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  src: local("Roboto Medium"), local("Roboto-Medium"), url("/fonts/roboto-v20-latin-ext_latin-500.woff2") format("woff2"), url("/fonts/roboto-v20-latin-ext_latin-500.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* roboto-700 - latin-ext_latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Roboto Bold"), local("Roboto-Bold"), url("/fonts/roboto-v20-latin-ext_latin-700.woff2") format("woff2"), url("/fonts/roboto-v20-latin-ext_latin-700.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 :root {

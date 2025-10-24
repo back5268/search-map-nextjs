@@ -81,7 +81,6 @@ export async function POST(req) {
 
     return NextResponse.json({ status: 1, data });
   } catch (err) {
-    console.error("POST /company error:", err);
     return NextResponse.json({ mess: err.message }, { status: 500 });
   }
 }

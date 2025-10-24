@@ -7,6 +7,7 @@ AccountMd.init("Account", {
   username: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String },
+  status: { type: Number },
   lastLogin: { type: Date },
   otp: { type: String },
   timeSendOtp: { type: Date },

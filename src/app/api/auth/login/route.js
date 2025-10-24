@@ -18,8 +18,8 @@ export async function POST(req) {
         { status: 400 }
       );
 
-    const ok = await bcrypt.compare(password, account.password);
-    if (!ok)
+    const check = await bcrypt.compare(password, account.password);
+    if (!check)
       return NextResponse.json(
         { mess: "Mật khẩu không chính xác" },
         { status: 400 }
