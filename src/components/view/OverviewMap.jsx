@@ -98,7 +98,18 @@ export default function OverviewMap({ coords = [], locations = [] }) {
                     <span>Địa chỉ: {item.address}</span>
                     <span>Chủ kinh doanh: {item.owner}</span>
                     <span>Mã số thuế: {item.tax}</span>
-                    <span></span>
+                    <span>Giấy phép đăng ký kinh doanh:</span>
+                    {item.files?.map((link, index) => (
+                      <Link key={index} href={link} target="_blank" className="block w-full truncate text-blue-600 hover:underline">
+                        {link}
+                      </Link>
+                    ))}
+                    <span>Hồ sơ PCCC:</span>
+                    {item.pccc?.map((link, index) => (
+                      <Link key={index} href={link} target="_blank" className="block w-full truncate text-blue-600 hover:underline">
+                        {link}
+                      </Link>
+                    ))}
                   </div>
                 </Popup>
               </Polygon>
