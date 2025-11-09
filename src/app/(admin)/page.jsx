@@ -19,23 +19,33 @@ export default function DashBoard() {
       const _locations = [],
         _coords = [];
       data.forEach((datum) => {
+        console.log(datum);
+        
         if (datum.type === 1) {
-          _locations.push({
-            name: datum.name,
-            tax: datum.tax,
-            address: datum.address,
-            ...datum.location,
-          });
+          if (datum.location?.lat && datum.location?.lng)
+            _locations.push({
+              name: datum.name,
+              tax: datum.tax,
+              address: datum.address,
+              owner: datum.owner,
+              files: datum.files,
+              pccc: datum.pccc,
+              ...datum.location,
+            });
         } else if (datum.type === 2) {
           if (datum.coords?.length) {
             datum.coords.forEach((coord) => {
-              _coords.push({
-                name: datum.name,
-                tax: datum.tax,
-                address: datum.address,
-                color: datum.color,
-                coords: coord,
-              });
+              if (coord)
+                _coords.push({
+                  name: datum.name,
+                  tax: datum.tax,
+                  address: datum.address,
+                  color: datum.color,
+                  coords: coord,
+                  owner: datum.owner,
+                  files: datum.files,
+                  pccc: datum.pccc,
+                });
             });
           }
         }

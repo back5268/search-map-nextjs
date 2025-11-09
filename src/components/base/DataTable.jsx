@@ -61,6 +61,7 @@ export const DataTable = (props) => {
       _id: item._id,
       status: item.status ? 0 : 1,
     }),
+    isUpload
   } = statusInfo;
   const isActions =
     baseActions.includes("detail") ||
@@ -124,7 +125,8 @@ export const DataTable = (props) => {
         const response = await postData(
           `${changeStatusRoute}/${item._id}`,
           "PUT",
-          handleChangeStatus(item)
+          handleChangeStatus(item),
+          isUpload
         );
         if (response?.status) {
           showToast({

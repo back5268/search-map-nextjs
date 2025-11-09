@@ -36,13 +36,14 @@ export const postData = async (url, method, params, isUpload) => {
     });
   }
 
+  console.log(res.ok);
+  
   if (!res.ok) {
     const text = checkJson(await res.text());
     text.status = 0;
     return text;
   } else {
     const text = checkJson(await res.text());
-    text.status = 1;
     return text;
   }
 };
@@ -55,7 +56,7 @@ export const deleteData = async (url, params) => {
   });
 
   const text = checkJson(await res.text());
-  text.status = res.ok ? 1 : 0;
+  text.status = res.ok ? text.status : 0;
   return text;
 };
 

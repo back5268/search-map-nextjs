@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { useGetData } from "@/hooks/useGetData";
 import { ColorPicker } from "primereact/colorpicker";
 import dynamic from "next/dynamic";
+import { UploadFiles } from "../base/UploadFiles";
 
 const OverviewMap = dynamic(() => import("./OverviewMap"), {
   ssr: false, // 🚫 disable SSR để tránh lỗi window/document
@@ -27,6 +28,7 @@ const defaultValues = {
   tax: "",
   address: "",
   description: "",
+  owner: "",
   type: 1,
   color: "#0891b2",
 };
@@ -38,6 +40,8 @@ export const Company = () => {
     useGetData(`/api/company/${id}`, {}, false, isUpdate) || {};
   const [location, setLocation] = useState({});
   const [coords, setCoords] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [pccc, setPccc] = useState([]);
 
   const {
     register,
@@ -58,11 +62,14 @@ export const Company = () => {
       }
       if (Number(item.data.type) === 1) setLocation(item.data.location);
       else setCoords(item.data.coords);
+      if (item.data.files) setFiles(item.data.files)
+      if (item.data.pccc) setPccc(item.data.pccc)
     }
   }, [item]);
 
   const handleData = (data) => {
     const newData = { ...data };
+    newData.formData = { files, pccc }
     if (!isUpdate) {
       newData.location = location;
       newData.coords = coords.map((coord) => coord.map((c) => [c.lat, c.lng]));
@@ -78,8 +85,8 @@ export const Company = () => {
       isUpdate={isUpdate}
       handleData={handleData}
       handleSubmit={handleSubmit}
-      create={{ route: "/api/company" }}
-      update={{ route: `/api/company/${id}` }}
+      create={{ route: "/api/company", isUpload: true }}
+      update={{ route: `/api/company/${id}`, isUpload: true }}
     >
       <div className="h-[700px] overflow-scroll pt-2">
         <div className="flex flex-wrap w-full">
@@ -87,6 +94,13 @@ export const Company = () => {
             id="name"
             label="Tên công ty (*)"
             value={watch("name")}
+            errors={errors}
+            register={register}
+          />
+          <InputFormz
+            id="owner"
+            label="Chủ kinh doanh (*)"
+            value={watch("owner")}
             errors={errors}
             register={register}
           />
@@ -145,6 +159,8 @@ export const Company = () => {
           ) : (
             ""
           )}
+          <UploadFiles label="Giấy phép kinh doanh" files={files} setFiles={setFiles}/>
+          <UploadFiles label="Hồ sơ PCCC" files={pccc} setFiles={setPccc}/>
         </div>
         <div className="px-2 mt-4">
           {isUpdate ? (

@@ -5,7 +5,8 @@ import { useDropzone } from 'react-dropzone';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Buttonz } from '@/components/core';
 import { IMAGE_TYPE } from '@/constant';
-import { useToastState } from '@/store';
+import { useToastState } from '@/store/toastState';
+import Link from 'next/link';
 
 export const UploadFiles = (props) => {
   const { files = [], setFiles, label, max, isView, type, className = '' } = props;
@@ -46,7 +47,7 @@ export const UploadFiles = (props) => {
                 onClick={() => setFiles([])}
                 severity="danger"
                 outlined
-                className="!p-0 h-10 w-10 flex justify-center items-center rounded-full"
+                className="h-10 w-10 flex justify-center items-center rounded-full"
                 icon={<TrashIcon className="w-5" />}
               />
               <div {...getRootProps()}>
@@ -61,7 +62,7 @@ export const UploadFiles = (props) => {
           <div className="flex justify-center flex-col gap-4 text-left mt-4">
             {files.map((f, index) => (
               <div key={index} className="card flex items-center justify-between !p-2">
-                <Link to={typeof f === 'string' ? f : ''} target="_blank" className="text-sm text-primary">
+                <Link href={typeof f === 'string' ? f : ''} target="_blank" className="text-sm text-primary">
                   {f?.name || f}
                 </Link>
                 {!isView && (
@@ -69,7 +70,7 @@ export const UploadFiles = (props) => {
                     onClick={() => removeFile(f)}
                     severity="danger"
                     outlined
-                    className="!p-0 h-10 w-10 flex justify-center items-center rounded-full"
+                    className="h-10 w-10 flex justify-center items-center rounded-full"
                     icon={<TrashIcon className="w-5" />}
                   />
                 )}

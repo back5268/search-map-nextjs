@@ -6,6 +6,8 @@ import {
   detailCompanyMd,
   listCompanyMd,
 } from "@/models/Company";
+import { uploadFileToFirebase } from "@/lib/firebase";
+import { checkJson } from "@/lib/helper";
 
 // 🟩 GET - Lấy danh sách
 export async function GET(req) {
@@ -45,17 +47,33 @@ export async function GET(req) {
 // 🟨 POST - Tạo mới
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const {
-      name,
-      tax,
-      address,
-      description,
-      color,
-      location,
-      coords,
-      type
-    } = body;
+    const formData = await req.formData();
+
+    const name = formData.get("name");
+    const tax = formData.get("tax");
+    const address = formData.get("address");
+    const description = formData.get("description");
+    const color = formData.get("color");
+    const location = formData.get("location");
+    const coords = formData.get("coords");
+    const type = formData.get("type");
+    const owner = formData.get("owner");
+
+    const files = formData.getAll("files");
+    const pccc = formData.getAll("pccc");
+
+    const filez = [],
+      pcccz = [];
+    if (Array.isArray(files)) {
+      for (const item of files) {
+        filez.push(await uploadFileToFirebase(item));
+      }
+    }
+    if (Array.isArray(pccc)) {
+      for (const item of pccc) {
+        pcccz.push(await uploadFileToFirebase(item));
+      }
+    }
 
     await connectDB();
 
@@ -73,10 +91,13 @@ export async function POST(req) {
       address,
       description,
       color,
-      location,
-      coords,
+      location: checkJson(location) || location,
+      coords: checkJson(coords) || coords,
       status: 1,
-      type
+      type,
+      owner,
+      files: filez,
+      pccc: pcccz
     });
 
     return NextResponse.json({ status: 1, data });

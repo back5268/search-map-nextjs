@@ -16,7 +16,8 @@ export default function CompanyPage() {
   const [filter, setFilter] = useState({});
   const { isLoading, data: dataz } = useGetData("/api/company", params);
   const data = dataz?.data?.data || [],
-    count = data?.data?.count || 0;
+    count = dataz?.data?.count || 0;
+    
 
   return (
     <FormList title="Danh sách công ty">
@@ -58,7 +59,7 @@ export default function CompanyPage() {
           onViewDetail: (item) => router.push(`/company/${item._id}`),
           deleteRoute: "/api/company",
         }}
-        statusInfo={{ changeStatusRoute: "/api/company" }}
+        statusInfo={{ changeStatusRoute: "/api/company", isUpload: true }}
         headerInfo={{ onCreate: () => router.push("/company/create") }}
       >
         <Columnz header="Tên công ty" field="name" />

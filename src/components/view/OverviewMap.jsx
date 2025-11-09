@@ -13,6 +13,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 import L from "leaflet";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import Link from "next/link";
 
 // --- Cấu hình icon mặc định cho marker ---
 delete L.Icon.Default.prototype._getIconUrl;
@@ -78,41 +79,60 @@ export default function OverviewMap({ coords = [], locations = [] }) {
 
         {/* Vẽ các vùng (Polygon) */}
         {!!coords?.length &&
-          coords.map((item, index) => (
-            <Polygon
-              key={index}
-              pathOptions={{
-                color: item.color || "#0891b2",
-                fillOpacity: 0.4,
-                weight: 2,
-              }}
-              positions={item.coords}
-            >
-              <Popup>
-                <div className="flex flex-col gap-1">
-                  <b>{item.name}</b>
-                  <hr />
-                  <span>Địa chỉ: {item.address}</span>
-                  <span>Mã số thuế: {item.tax}</span>
-                </div>
-              </Popup>
-            </Polygon>
-          ))}
+          coords
+            .filter((c) => c)
+            .map((item, index) => (
+              <Polygon
+                key={index}
+                pathOptions={{
+                  color: item.color || "#0891b2",
+                  fillOpacity: 0.4,
+                  weight: 2,
+                }}
+                positions={item.coords}
+              >
+                <Popup>
+                  <div className="flex flex-col gap-1">
+                    <b>{item.name}</b>
+                    <hr />
+                    <span>Địa chỉ: {item.address}</span>
+                    <span>Chủ kinh doanh: {item.owner}</span>
+                    <span>Mã số thuế: {item.tax}</span>
+                    <span></span>
+                  </div>
+                </Popup>
+              </Polygon>
+            ))}
 
         {/* Hiển thị danh sách Marker */}
         {!!locations?.length &&
-          locations.map((item, index) => (
-            <Marker key={index} position={[item.lat, item.lng]}>
-              <Popup>
-                <div className="flex flex-col gap-1">
-                  <b>{item.name}</b>
-                  <hr />
-                  <span>Địa chỉ: {item.address}</span>
-                  <span>Mã số thuế: {item.tax}</span>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          locations
+            .filter((l) => l)
+            .map((item, index) => (
+              <Marker key={index} position={[item.lat, item.lng]}>
+                <Popup>
+                  <div className="flex flex-col gap-1">
+                    <b>{item.name}</b>
+                    <hr />
+                    <span>Địa chỉ: {item.address}</span>
+                    <span>Chủ kinh doanh: {item.owner}</span>
+                    <span>Mã số thuế: {item.tax}</span>
+                    <span>Giấy phép đăng ký kinh doanh:</span>
+                    {item.files?.map((link, index) => (
+                      <Link key={index} href={link} target="_blank" className="block w-full truncate text-blue-600 hover:underline">
+                        {link}
+                      </Link>
+                    ))}
+                    <span>Hồ sơ PCCC:</span>
+                    {item.pccc?.map((link, index) => (
+                      <Link key={index} href={link} target="_blank" className="block w-full truncate text-blue-600 hover:underline">
+                        {link}
+                      </Link>
+                    ))}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
       </MapContainer>
     </div>
   );

@@ -5,14 +5,17 @@ export class CompanyMd extends ModelBase {}
 CompanyMd.init("Company", {
   name: { type: String, required: true },
   tax: { type: String, required: true },
+  owner: { type: String },
   address: { type: String, required: true },
   description: { type: String },
   color: { type: String },
   type: { type: Number },
   location: { type: Object },
   coords: {
-    type: [[[Number]]],
+    type: Array,
   },
+  files: [{ type: String }],
+  pccc: [{ type: String }],
   status: { type: Number },
   deletedAt: { type: Date },
 });
