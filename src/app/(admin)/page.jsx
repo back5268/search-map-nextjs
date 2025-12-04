@@ -11,7 +11,8 @@ const OverviewMap = dynamic(() => import("@/components/view/OverviewMap"), {
 export default function DashBoard() {
   const [coords, setCoords] = useState([]);
   const [locations, setLocations] = useState([]);
-  const { data: dataz } = useGetData("/api/company", {});
+  const { data: dataz } = useGetData("/api/company");
+  
 
   useEffect(() => {
     const data = dataz?.data?.data || [];
@@ -19,8 +20,6 @@ export default function DashBoard() {
       const _locations = [],
         _coords = [];
       data.forEach((datum) => {
-        console.log(datum);
-        
         if (datum.type === 1) {
           if (datum.location?.lat && datum.location?.lng)
             _locations.push({

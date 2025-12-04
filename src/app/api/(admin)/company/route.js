@@ -27,7 +27,9 @@ export async function GET(req) {
         { name: { $regex: name, $options: "i" } },
         { tax: { $regex: name, $options: "i" } },
       ];
-    if (address) where.address = address;
+    if (address) {
+      where.address = { $regex: address, $options: "i" };
+    }
     if (status !== null) where.status = Number(status);
 
     const [data, count] = await Promise.all([
@@ -97,7 +99,7 @@ export async function POST(req) {
       type,
       owner,
       files: filez,
-      pccc: pcccz
+      pccc: pcccz,
     });
 
     return NextResponse.json({ status: 1, data });
