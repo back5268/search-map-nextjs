@@ -18,8 +18,8 @@ export const ForgotPasswordValidation = yup.object({
 });
 
 export const CompanyValidation = yup.object({
-  name: yup.string().required("Tên công ty không được bỏ trống!"),
-  tax: yup.string().required("Mã số thuê không được bỏ trống!"),
+  // name: yup.string().required("Tên công ty không được bỏ trống!"),
+  // tax: yup.string().required("Mã số thuê không được bỏ trống!"),
   address: yup.string().required("Địa chỉ không được bỏ trống!"),
 });
 

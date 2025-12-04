@@ -92,21 +92,21 @@ export const Company = () => {
         <div className="flex flex-wrap w-full">
           <InputFormz
             id="name"
-            label="Tên công ty (*)"
+            label="Tên công ty"
             value={watch("name")}
             errors={errors}
             register={register}
           />
           <InputFormz
             id="owner"
-            label="Chủ kinh doanh (*)"
+            label="Chủ kinh doanh"
             value={watch("owner")}
             errors={errors}
             register={register}
           />
           <InputFormz
             id="tax"
-            label="Mã số thuế (*)"
+            label="Mã số thuế"
             value={watch("tax")}
             errors={errors}
             register={register}

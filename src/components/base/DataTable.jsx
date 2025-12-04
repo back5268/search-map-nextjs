@@ -18,6 +18,7 @@ import {
 import { confirmDialog } from "primereact/confirmdialog";
 import { deleteData, postData } from "@/hooks/useMutationData";
 import { useToastState } from "@/store/toastState";
+import { useGetData } from "@/hooks/useGetData";
 
 export const DataTable = (props) => {
   const { showToast } = useToastState();
@@ -51,7 +52,7 @@ export const DataTable = (props) => {
   const {
     onCreate = () => {},
     onImport = () => {},
-    exportApi,
+    exportRoute,
     moreHeader,
     items,
   } = headerInfo;
@@ -61,7 +62,7 @@ export const DataTable = (props) => {
       _id: item._id,
       status: item.status ? 0 : 1,
     }),
-    isUpload
+    isUpload,
   } = statusInfo;
   const isActions =
     baseActions.includes("detail") ||
@@ -96,24 +97,15 @@ export const DataTable = (props) => {
 
   const onExport = async () => {
     setIsLoading(true);
-    const response = await exportApi({
-      ...params,
-      page: undefined,
-      limit: undefined,
-    });
+    const res = await fetch(exportRoute);
     setIsLoading(false);
-    if (response) {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(response);
-      downloadLink.download =
-        (title && `ket-qua-export-${removeSpecialCharacter(title)}.xlsx`) ||
-        "data.xlsx";
-      downloadLink.click();
-      showToast({
-        title: `Export ${title?.toLowerCase()} thành công!`,
-        severity: "success",
-      });
-    }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.xlsx";
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const onChangeStatus = (item) => {
